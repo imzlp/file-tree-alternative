@@ -34,6 +34,9 @@ export interface FileTreeAlternativePluginSettings {
     folderNote: boolean;
     deleteFileOption: DeleteFileOption;
     showFileNameAsFullPath: boolean;
+    // add by lipengzha
+    showTitleName: boolean;
+    // ---
 }
 
 export const DEFAULT_SETTINGS: FileTreeAlternativePluginSettings = {
@@ -62,6 +65,9 @@ export const DEFAULT_SETTINGS: FileTreeAlternativePluginSettings = {
     folderNote: false,
     deleteFileOption: 'trash',
     showFileNameAsFullPath: false,
+    // add by lipengzha
+    showTitleName: true
+    // ---
 };
 
 export class FileTreeAlternativePluginSettingsTab extends PluginSettingTab {
@@ -322,7 +328,19 @@ export class FileTreeAlternativePluginSettingsTab extends PluginSettingTab {
                     this.refreshView();
                 });
             });
-
+        
+        // add by lipengzha
+        new Setting(containerEl)
+            .setName('Show file title name')
+            .setDesc('Turn on if you want to see the title name rather than only file name')
+            .addToggle((toggle) => {
+                toggle.setValue(this.plugin.settings.showTitleName).onChange((value) => {
+                    this.plugin.settings.showTitleName = value;
+                    this.plugin.saveSettings();
+                    this.refreshView();
+                });
+            });
+        // ---
         new Setting(containerEl)
             .setName('Deleted File Destination')
             .setDesc('Select where you want files to be moved once they are deleted')

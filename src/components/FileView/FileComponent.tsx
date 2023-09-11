@@ -568,12 +568,34 @@ const NavFile = (props: { file: TFile; plugin: FileTreeAlternativePlugin }) => {
             : Icons.BiFile;
     };
 
+    // add by lipengzha
+    const getFileTitle = (mdFile: TFile): string => {
+        let fileCache = plugin.app.metadataCache.getFileCache(mdFile);
+        console.log(fileCache)
+        let fileTitle: string = "";
+        if (fileCache && ('frontmatter' in fileCache) && ('title' in fileCache.frontmatter) && fileCache.frontmatter.title) {
+            fileTitle = fileCache.frontmatter.title;
+        }
+        return fileTitle;
+    };
+    // ---
+
     const FileIcon = useMemo(() => getFileIcon(), [plugin.settings.iconBeforeFileName]);
 
     const fileDisplayName = useMemo(() => {
         let displayName = plugin.settings.showFileNameAsFullPath ? file.path : file.name;
-        return Util.getFileNameAndExtension(displayName).fileName;
+        // return Util.getFileNameAndExtension(displayName).fileName;
+        // add by lipengzha
+        var RetName = Util.getFileNameAndExtension(displayName).fileName;
+        let FileTitle = getFileTitle(file);
+        if(!(FileTitle.length === 0) && plugin.settings.showTitleName)
+        {
+            RetName = FileTitle;
+        }
+        return RetName;
+        // ---
     }, [plugin.settings.showFileNameAsFullPath, file.path]);
+
 
     return (
         <div

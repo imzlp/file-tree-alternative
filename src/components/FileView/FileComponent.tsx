@@ -3,7 +3,8 @@ import Dropzone from 'react-dropzone';
 import { TFile, Menu } from 'obsidian';
 import * as Icons from 'utils/icons';
 import { VaultChangeModal, MoveSuggestionModal, ConfirmationModal } from 'modals';
-import FileTreeAlternativePlugin, { eventTypes } from 'main';
+import FileTreeAlternativePlugin from 'main';
+import { eventTypes } from 'utils/types';
 import * as Util from 'utils/Utils';
 import * as recoilState from 'recoil/pluginState';
 import { useRecoilState } from 'recoil';
@@ -221,7 +222,7 @@ export function FileComponent(props: FilesProps) {
     };
 
     const sortClicked = (e: React.MouseEvent) => {
-        const sortMenu = new Menu(plugin.app);
+        const sortMenu = new Menu();
 
         const changeSortSettingTo = (newValue: SortType) => {
             plugin.settings.sortFilesBy = newValue;
@@ -418,7 +419,7 @@ const NavFile = (props: { file: TFile; plugin: FileTreeAlternativePlugin }) => {
 
     // Handle Right Click Event on File - Custom Menu
     const triggerContextMenu = (file: TFile, e: React.MouseEvent | React.TouchEvent) => {
-        const fileMenu = new Menu(plugin.app);
+        const fileMenu = new Menu();
 
         // Pin - Unpin Item
         fileMenu.addItem((menuItem) => {

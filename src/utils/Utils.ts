@@ -1,9 +1,8 @@
 import { TFile, TFolder, App, Keymap, Platform } from 'obsidian';
 import FileTreeAlternativePlugin from 'main';
-import { FolderFileCountMap, FolderTree } from 'utils/types';
+import { FolderFileCountMap, FolderTree, eventTypes } from 'utils/types';
 import { stripIndents } from 'common-tags';
 import dayjs from 'dayjs';
-import { eventTypes } from 'main';
 import { VaultChangeModal } from 'modals';
 
 // Helper Function To Get List of Files
@@ -116,7 +115,9 @@ export const openFile = (props: { file: TFile; app: App; newLeaf: boolean; leafB
     const { file, app, newLeaf, leafBySplit } = props;
     let leaf = app.workspace.getLeaf(newLeaf);
     if (leafBySplit) leaf = app.workspace.createLeafBySplit(leaf, 'vertical');
-    app.workspace.setActiveLeaf(leaf, false);
+    app.workspace.setActiveLeaf(leaf, {
+        focus: false,
+    });
     leaf.openFile(file, { eState: { focus: true } });
 };
 
